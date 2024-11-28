@@ -1,0 +1,98 @@
+import java.util.Scanner;
+
+public class CalculadoraIMC {
+    public static void main(String[] args) {
+        // Crear un objeto Scanner para la entrada del usuario
+        Scanner scanner = new Scanner(System.in);
+        
+        // Solicitar y validar el peso del usuario
+        double peso = solicitarPeso(scanner);
+        
+        // Solicitar y validar la altura del usuario
+        double altura = solicitarAltura(scanner);
+
+        // Calcular el índice de masa corporal (IMC) usando el peso y la altura proporcionados
+        double imc = calcularIMC(peso, altura);
+
+        // Determinar el nivel de peso según el IMC calculado
+        String nivelPeso = determinarNivelPeso(imc);
+
+        // Mostrar el resultado del IMC y el nivel de peso al usuario
+        System.out.printf("\nTu IMC es: %.2f - Nivel de peso: %s%n", imc, nivelPeso);
+
+        // Cerrar el scanner para liberar el recurso
+        scanner.close();
+    }
+
+    /**
+     * Solicita el peso del usuario y valida la entrada para asegurar que esté en el rango permitido.
+     * @param scanner Objeto Scanner para la entrada del usuario.
+     * @return Peso del usuario en kilogramos.
+     */
+    private static double solicitarPeso(Scanner scanner) {
+        double peso;
+        while (true) {
+            System.out.print("Introduce tu peso en kilogramos (entre 30 y 300 kg): ");
+            try {
+                peso = Double.parseDouble(scanner.next().replace(',', '.'));
+                if (peso >= 30 && peso <= 300) {
+                    return peso;
+                } else {
+                    System.out.println("Error: El peso debe estar entre 30 y 300 kg.");
+                }
+            } catch (Exception e) {
+                System.out.println("Entrada no válida. Por favor, introduce un número válido.");
+            }
+        }
+    }
+
+    /**
+     * Solicita la altura del usuario y valida la entrada para asegurar que esté en el rango permitido.
+     * @param scanner Objeto Scanner para la entrada del usuario.
+     * @return Altura del usuario en metros.
+     */
+    private static double solicitarAltura(Scanner scanner) {
+        double altura;
+        while (true) {
+            System.out.print("Introduce tu altura en metros (por ejemplo, 1.75, entre 1.30 y 2.00 m): ");
+            try {
+                altura = Double.parseDouble(scanner.next().replace(',', '.'));
+                if (altura >= 1.30 && altura <= 2.00) {
+                    return altura;
+                } else {
+                    System.out.println("Error: La altura debe estar entre 1.30 y 2.00 metros.");
+                }
+            } catch (Exception e) {
+                System.out.println("Entrada no válida. Por favor, introduce un número válido.");
+            }
+        }
+    }
+
+    /**
+     * Calcula el índice de masa corporal (IMC) con los valores de peso y altura.
+     * @param peso Peso del usuario en kilogramos.
+     * @param altura Altura del usuario en metros.
+     * @return El IMC redondeado a dos decimales.
+     */
+    private static double calcularIMC(double peso, double altura) {
+        return Math.round((peso / (altura * altura)) * 100.0) / 100.0; // Redondear a dos decimales
+    }
+
+    /**
+     * Determina el nivel de peso según el valor del IMC.
+     * @param imc Índice de masa corporal calculado.
+     * @return Una cadena que indica el nivel de peso del usuario.
+     */
+    private static String determinarNivelPeso(double imc) {
+        if (imc < 18.5) {
+            return "Bajo peso";
+        } else if (imc >= 18.5 && imc <= 24.9) {
+            return "Normal";
+        } else if (imc >= 25.0 && imc <= 29.9) {
+            return "Sobrepeso";
+        } else {
+            return "Obesidad";
+        }
+    }
+}
+
